@@ -1,3 +1,14 @@
+Octonions = {Oct[0], Oct[1], Oct[2], Oct[3], Oct[4], Oct[5], Oct[6], Oct[7]}
+
+Txt[Oc[0]] = "1"
+Txt[Oc[1]] = "i"
+Txt[Oc[2]] = "j"
+Txt[Oc[3]] = "k"
+Txt[Oc[4]] = "l"
+Txt[Oc[5]] = "il"
+Txt[Oc[6]] = "jl"
+Txt[Oc[7]] = "kl"
+
 Prod[ Oc[0], Oc[0] ] :=  Oc[0]
 Prod[ Oc[0], Oc[1] ] :=  Oc[1]
 Prod[ Oc[0], Oc[2] ] :=  Oc[2]
