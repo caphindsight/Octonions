@@ -187,15 +187,62 @@ Table[
     Vec[Prod[Oc[i], Oc[k]]] [[j+1, 1]],
     {j, 0, 7}, {k, 0, 7}],
   {i, 0, 7}
-]
+];
 
 Table[
   Adj[Soc[i]] = Table[
     Vec[Prod[Soc[i], Soc[k]]] [[j+1, 1]],
     {j, 0, 7}, {k, 0, 7}],
   {i, 0, 7}
+];
+
+
+SplitOctoOctonions = Table[Soo[i, j], {i, 0, 7}, {j, 0, 7}]
+
+Oc /: Soc[a_] * Oc[b_] := Soo[a, b]
+Oc /: Oc[a_] * Soc[b_] := Soo[b, a]
+
+Table[
+  Prod[Soo[a, b], Soo[c, d]] = Prod[Soc[a], Soc[c]] * Prod[Oc[b], Oc[d]],
+  {a, 0, 7}, {b, 0, 7}, {c, 0, 7}, {d, 0, 7}
 ]
 
+Vec[Soo[x_, y_]] := Table[{If[k == x + y * 8, 1, 0]}, {k, 0, 63}]
+
+Table[
+  Adj[Soo[ix, iy]] = Table[
+    Block[{jy = Quotient[j, 8], jx = Mod[j, 8], ky = Quotient[k, 8],
+           kx = Mod[k, 8]},
+      Adj[Soc[ix]][[jx+1, kx+1]] * Adj[Oc[iy]][[jy+1,ky+1]]
+    ], {j, 0, 63}, {k, 0, 63}],
+  {ix, 0, 7}, {iy, 0, 7}
+];
 
 
+(* Chain of imaginary octinions *)
+(* ReChain[inds_] := Fold[Dot, Table[Adj[Soo[0, i]], {i, inds}]] *)
+(* ImChain[inds_] := Fold[Dot, Table[Adj[Soo[1, i]], {i, inds}]] *)
+ImPair[i_, j_] := - Adj[Soo[1, 0]] . Adj[Soo[1, i]] . Adj[Soo[0, j]]
+
+Comm[a_, b_] := a . b - b . a
+Acom[a_, b_] := a . b + b . a
+
+SU3[l1_, l2_, l3_, l4_, l5_, l6_, l7_, l8_] :=
+  (l1 / 2) * (ImPair[1, 5] - ImPair[3, 4]) -
+  (l2 / 2) * (ImPair[1, 4] + ImPair[3, 5]) +
+  (l3 / 2) * (ImPair[4, 5] - ImPair[1, 3]) +
+  (l4 / 2) * (ImPair[2, 5] + ImPair[4, 6]) +
+  (l5 / 2) * (ImPair[5, 6] - ImPair[2, 4]) +
+  (l6 / 2) * (ImPair[1, 6] + ImPair[2, 3]) +
+  (l7 / 2) * (ImPair[1, 2] + ImPair[3, 6]) +
+  (l8 / (2 * Sqrt[3])) * (ImPair[1, 3] + ImPair[4, 5] - 2 ImPair[2, 6]);
+
+SU3Gen[1] = SU3[1, 0, 0, 0, 0, 0, 0, 0] / 2
+SU3Gen[2] = SU3[0, 1, 0, 0, 0, 0, 0, 0] / 2
+SU3Gen[3] = SU3[0, 0, 1, 0, 0, 0, 0, 0] / 2
+SU3Gen[4] = SU3[0, 0, 0, 1, 0, 0, 0, 0] / 2
+SU3Gen[5] = SU3[0, 0, 0, 0, 1, 0, 0, 0] / 2
+SU3Gen[6] = SU3[0, 0, 0, 0, 0, 1, 0, 0] / 2
+SU3Gen[7] = SU3[0, 0, 0, 0, 0, 0, 1, 0] / 2
+SU3Gen[8] = SU3[0, 0, 0, 0, 0, 0, 0, 1] / 2
 
