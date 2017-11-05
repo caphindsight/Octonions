@@ -218,31 +218,21 @@ Table[
   {ix, 0, 7}, {iy, 0, 7}
 ];
 
-
-(* Chain of imaginary octinions *)
-(* ReChain[inds_] := Fold[Dot, Table[Adj[Soo[0, i]], {i, inds}]] *)
-(* ImChain[inds_] := Fold[Dot, Table[Adj[Soo[1, i]], {i, inds}]] *)
-ImPair[i_, j_] := - Adj[Soo[1, 0]] . Adj[Soo[1, i]] . Adj[Soo[0, j]]
+(* Zeroes *)
+ZZ = Table[0, {i, 1, 64}, {j, 1, 64}];
 
 Comm[a_, b_] := a . b - b . a
 Acom[a_, b_] := a . b + b . a
 
-SU3[l1_, l2_, l3_, l4_, l5_, l6_, l7_, l8_] :=
-  (l1 / 2) * (ImPair[1, 5] - ImPair[3, 4]) -
-  (l2 / 2) * (ImPair[1, 4] + ImPair[3, 5]) +
-  (l3 / 2) * (ImPair[4, 5] - ImPair[1, 3]) +
-  (l4 / 2) * (ImPair[2, 5] + ImPair[4, 6]) +
-  (l5 / 2) * (ImPair[5, 6] - ImPair[2, 4]) +
-  (l6 / 2) * (ImPair[1, 6] + ImPair[2, 3]) +
-  (l7 / 2) * (ImPair[1, 2] + ImPair[3, 6]) +
-  (l8 / (2 * Sqrt[3])) * (ImPair[1, 3] + ImPair[4, 5] - 2 ImPair[2, 6]);
+(* Chain of imaginary octinions *)
+ImPair[i_, j_] := - Adj[Soo[1, 0]] . Adj[Soo[1, i]] . Adj[Soo[0, j]]
 
-SU3Gen[1] = SU3[1, 0, 0, 0, 0, 0, 0, 0] / 2
-SU3Gen[2] = SU3[0, 1, 0, 0, 0, 0, 0, 0] / 2
-SU3Gen[3] = SU3[0, 0, 1, 0, 0, 0, 0, 0] / 2
-SU3Gen[4] = SU3[0, 0, 0, 1, 0, 0, 0, 0] / 2
-SU3Gen[5] = SU3[0, 0, 0, 0, 1, 0, 0, 0] / 2
-SU3Gen[6] = SU3[0, 0, 0, 0, 0, 1, 0, 0] / 2
-SU3Gen[7] = SU3[0, 0, 0, 0, 0, 0, 1, 0] / 2
-SU3Gen[8] = SU3[0, 0, 0, 0, 0, 0, 0, 1] / 2
+SU3[1] =  (1 / 4) * (ImPair[1, 5] - ImPair[3, 4]);
+SU3[2] = -(1 / 4) * (ImPair[1, 4] + ImPair[3, 5]);
+SU3[3] =  (1 / 4) * (ImPair[4, 5] - ImPair[1, 3]);
+SU3[4] =  (1 / 4) * (ImPair[2, 5] + ImPair[4, 6]);
+SU3[5] =  (1 / 4) * (ImPair[5, 6] - ImPair[2, 4]);
+SU3[6] =  (1 / 4) * (ImPair[1, 6] + ImPair[2, 3]);
+SU3[7] =  (1 / 4) * (ImPair[1, 2] + ImPair[3, 6]);
+SU3[8] =  (1 / (4 * Sqrt[3])) * (ImPair[1, 3] + ImPair[4, 5] - 2 ImPair[2, 6]);
 
