@@ -178,4 +178,24 @@ Prod[a_ + b_, c_] := Prod[a, c] + Prod[b, c]
 Prod[a_, b_ + c_] := Prod[a, b] + Prod[a, c]
 
 
+Vec[a_ * b_] /; NumericQ[a] := a * Vec[b]
+Vec[Oc[i_]] := Table[{If[i == j, 1, 0]}, {j, 0, 7}]
+Vec[Soc[i_]] := Table[{If[i == j, 1, 0]}, {j, 0, 7}]
+
+Table[
+  Adj[Oc[i]] = Table[
+    Vec[Prod[Oc[i], Oc[k]]] [[j+1, 1]],
+    {j, 0, 7}, {k, 0, 7}],
+  {i, 0, 7}
+]
+
+Table[
+  Adj[Soc[i]] = Table[
+    Vec[Prod[Soc[i], Soc[k]]] [[j+1, 1]],
+    {j, 0, 7}, {k, 0, 7}],
+  {i, 0, 7}
+]
+
+
+
 
